@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Registration - Welcome!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-icon computer">💻</div>
+        <div class="floating-icon book">📚</div>
+        <div class="floating-icon pencil">✏️</div>
+        <div class="floating-icon calculator">🧮</div>
+        <div class="floating-icon globe">🌍</div>
+        <div class="floating-icon microscope">🔬</div>
+        <div class="floating-icon paintbrush">🎨</div>
+        <div class="floating-icon music">🎵</div>
+    </div>
+
+    <div class="container">
+        <div class="form-card">
+            <div class="header">
+                <h1 id="welcome-heading">Welcome! Please follow the steps below</h1>
+                <div class="progress-bar">
+                    <div class="progress-step active" data-step="1">1</div>
+                    <div class="progress-step" data-step="2">2</div>
+                    <div class="progress-step" data-step="3">3</div>
+                </div>
+            </div>
+
+            <form id="signup-form">
+                <div class="form-step active" data-step="1">
+                    <div class="input-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    <button type="button" class="next-btn" onclick="nextStep()">Next</button>
+                </div>
+
+                <div class="form-step" data-step="2">
+                    <div class="input-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                        <button type="button" class="next-btn" onclick="nextStep()">Next</button>
+                    </div>
+                </div>
+
+                <div class="form-step" data-step="3">
+                    <div class="input-group">
+                        <label for="timeSlot">Select a Time Slot</label>
+                        <div class="time-slots">
+                            <div class="time-slot">
+                                <input type="radio" id="slot1" name="timeSlot" value="12-1" required>
+                                <label for="slot1">12:00 PM - 1:00 PM</label>
+                            </div>
+                            <div class="time-slot">
+                                <input type="radio" id="slot2" name="timeSlot" value="1-2" required>
+                                <label for="slot2">1:00 PM - 2:00 PM</label>
+                            </div>
+                            <div class="time-slot">
+                                <input type="radio" id="slot3" name="timeSlot" value="2-3" required>
+                                <label for="slot3">2:00 PM - 3:00 PM</label>
+                            </div>
+                            <div class="time-slot">
+                                <input type="radio" id="slot4" name="timeSlot" value="3-4" required>
+                                <label for="slot4">3:00 PM - 4:00 PM</label>
+                            </div>
+                            <div class="time-slot">
+                                <input type="radio" id="slot5" name="timeSlot" value="4-5" required>
+                                <label for="slot5">4:00 PM - 5:00 PM</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                        <button type="submit" class="submit-btn">Sign Up</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="success-popup" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-icon">🎉</div>
+            <h2>Hurray! You are signed up</h2>
+            <p>Thank you for registering with us. We'll contact you soon with more details!</p>
+            <button class="popup-btn" onclick="closePopup()">Great!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
