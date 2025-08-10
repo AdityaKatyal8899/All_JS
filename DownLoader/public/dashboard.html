@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - YouTube Downloader</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube Downloader</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info" id="userInfo">
+                    <img src="" alt="Profile" id="userAvatar" class="user-avatar">
+                    <span id="userName">Loading...</span>
+                    <div class="user-dropdown">
+                        <button class="dropdown-btn">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <main class="dashboard-main">
+            <!-- Download section -->
+            <section class="download-section">
+                <div class="download-card">
+                    <h2>Download YouTube Content</h2>
+                    <p>Paste a YouTube URL and choose your preferred format</p>
+                    
+                    <form id="downloadForm" class="download-form">
+                        <div class="input-group">
+                            <label for="youtubeUrl">YouTube URL</label>
+                            <input 
+                                type="url" 
+                                id="youtubeUrl" 
+                                placeholder="https://www.youtube.com/watch?v=..." 
+                                required
+                            >
+                        </div>
+                        
+                        <div class="format-buttons">
+                            <button type="button" class="format-btn active" data-format="video">
+                                <i class="fas fa-video"></i>
+                                <span>Video (MP4)</span>
+                            </button>
+                            <button type="button" class="format-btn" data-format="audio">
+                                <i class="fas fa-music"></i>
+                                <span>Audio (MP3)</span>
+                            </button>
+                            <button type="button" class="format-btn" data-format="short">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>YouTube Short</span>
+                            </button>
+                            <button type="button" class="format-btn" data-format="reel">
+                                <i class="fab fa-instagram"></i>
+                                <span>Instagram Reel</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Format selection for video downloads -->
+                        <div id="formatSelection" class="format-selection" style="display: none;">
+                            <h4>Select Video Quality</h4>
+                            <div id="formatOptions" class="format-options">
+                                <!-- Format options will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            <span>Start Download</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Active downloads -->
+            <section class="active-downloads">
+                <h3>Active Downloads</h3>
+                <div id="activeDownloads" class="downloads-list">
+                    <!-- Active downloads will be populated here -->
+                </div>
+            </section>
+
+            <!-- Download history -->
+            <section class="download-history">
+                <div class="history-header">
+                    <h3>Download History</h3>
+                    <button class="refresh-btn" onclick="loadDownloads()">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+                <div id="downloadHistory" class="downloads-grid">
+                    <!-- Download history will be populated here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Processing your download...</p>
+        </div>
+    </div>
+
+    <!-- Success notification -->
+    <div id="successNotification" class="notification success">
+        <i class="fas fa-check-circle"></i>
+        <span id="successMessage">Download completed successfully!</span>
+        <button class="notification-close" onclick="hideNotification('success')">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Error notification -->
+    <div id="errorNotification" class="notification error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="errorMessage">An error occurred. Please try again.</span>
+        <button class="notification-close" onclick="hideNotification('error')">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
