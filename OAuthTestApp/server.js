@@ -26,8 +26,8 @@ let usersCollection;
 client.connect()
   .then(() => {
     console.log("✅ Connected to MongoDB");
-    const db = client.db("authDemo"); // Your DB name
-    usersCollection = db.collection("SignUps");
+    const db = client.db("AuthTest"); // Your DB name
+    usersCollection = db.collection("SignUps"); //Your Collection name
 
     // Optional: show indexes to verify unique constraints
     return usersCollection.indexes();
