@@ -105,25 +105,23 @@ app.get('/auth/google/callback', async (req, res) => {
 
     console.log("Received user data from Google:", userData);
 
-    // Upsert user: insert if new, update lastLogin and info if exists
     await usersCollection.updateOne(
-      { googleId: userData.googleId },
-      {
-        $set: {
-          name: userData.name,
-          email: userData.email,
-          picture: userData.picture,
-          lastLogin: new Date()
-        },
-        $setOnInsert: {
-          tokens: userData.tokens,
-          createdAt: new Date()
-        }
-      },
-      { upsert: true }
-    );
+  { googleId: userData.googleId },
+  {
+    $setOnInsert: {
+      name: userData.name,
+      email: userData.email,
+      picture: userData.picture,
+      tokens: userData.tokens,
+      createdAt: new Date()
+    },
+    $set: {
+      lastLogin: new Date()
+    }
+  },
+  { upsert: true }
+);
 
-    console.log(`✅ User upserted in DB: ${userData.googleId}`);
 
     // Redirect to success page with safe user data (no tokens)
     res.redirect(`/success?user=${encodeURIComponent(JSON.stringify({
