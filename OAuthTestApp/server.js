@@ -75,7 +75,12 @@ app.get('/auth/google/callback', async (req, res) => {
     return res.redirect('/?error=no_code');
   }
 
-  // Create a new OAuth2 client instance here to avoid reusing old credentials accidentally
+  if (!usersCollection) {
+    console.error("Users collection not initialized!");
+    return res.redirect('/?error=db_not_ready');
+  }
+
+  // Create a new OAuth2 client instance
   const oauth2ClientInstance = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
@@ -92,34 +97,35 @@ app.get('/auth/google/callback', async (req, res) => {
     const userData = {
       googleId: userInfo.data.sub,
       name: userInfo.data.name,
-      email: userInfo.data.email,       // Added email for more info
+      email: userInfo.data.email,
       picture: userInfo.data.picture,
-      tokens,                           // Optional: store tokens if needed (be careful with security)
-      lastLogin: new Date()             // Track last login timestamp
+      tokens,            // Optional: be careful with security if you store tokens
+      lastLogin: new Date()
     };
 
     console.log("Received user data from Google:", userData);
 
-    if (!usersCollection) {
-      console.error("Users collection not initialized!");
-      return res.redirect('/?error=db_not_ready');
-    }
+    // Upsert user: insert if new, update lastLogin and info if exists
+    await usersCollection.updateOne(
+      { googleId: userData.googleId },
+      {
+        $set: {
+          name: userData.name,
+          email: userData.email,
+          picture: userData.picture,
+          lastLogin: new Date()
+        },
+        $setOnInsert: {
+          tokens: userData.tokens,
+          createdAt: new Date()
+        }
+      },
+      { upsert: true }
+    );
 
-    // Find user by googleId
-    const existingUser = await usersCollection.findOne({ googleId: userData.googleId });
-    if (!existingUser) {
-      await usersCollection.insertOne(userData);
-      console.log(`✅ New user added to DB: ${userData.googleId}`);
-    } else {
-      // Update lastLogin timestamp if user exists
-      await usersCollection.updateOne(
-        { googleId: userData.googleId },
-        { $set: { lastLogin: new Date() } }
-      );
-      console.log(`ℹ️ User already exists in DB, updated lastLogin: ${userData.googleId}`);
-    }
+    console.log(`✅ User upserted in DB: ${userData.googleId}`);
 
-    // Redirect to success page with user data (careful with sending sensitive info)
+    // Redirect to success page with safe user data (no tokens)
     res.redirect(`/success?user=${encodeURIComponent(JSON.stringify({
       googleId: userData.googleId,
       name: userData.name,
@@ -132,6 +138,7 @@ app.get('/auth/google/callback', async (req, res) => {
     res.redirect('/?error=oauth_failed');
   }
 });
+
 
 // Success page
 app.get('/success', (req, res) => {
