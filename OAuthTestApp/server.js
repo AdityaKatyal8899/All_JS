@@ -64,8 +64,13 @@ app.get('/auth/google', (req, res) => {
 // Handle OAuth callback
 app.get('/auth/google/callback', async (req, res) => {
   const { code } = req.query;
-
   if (!code) return res.redirect('/?error=no_code');
+
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.REDIRECT_URI
+  );
 
   try {
     const { tokens } = await oauth2Client.getToken(code);
@@ -79,11 +84,9 @@ app.get('/auth/google/callback', async (req, res) => {
       name: userInfo.data.name,
       picture: userInfo.data.picture
     };
-    console.log("Full user info", userInfo.data)
-    // Store in MongoDB
+
     if (usersCollection) {
       const existingUser = await usersCollection.findOne({ googleId: userData.googleId });
-
       if (!existingUser) {
         await usersCollection.insertOne(userData);
         console.log("✅ New user added to DB");
@@ -92,14 +95,13 @@ app.get('/auth/google/callback', async (req, res) => {
       }
     }
 
-    // Redirect to success page
-    const userDataParam = encodeURIComponent(JSON.stringify(userData));
-    res.redirect(`/success?user=${userDataParam}`);
+    res.redirect(`/success?user=${encodeURIComponent(JSON.stringify(userData))}`);
   } catch (error) {
     console.error('OAuth error:', error);
     res.redirect('/?error=oauth_failed');
   }
 });
+
 
 // Success page
 app.get('/success', (req, res) => {
