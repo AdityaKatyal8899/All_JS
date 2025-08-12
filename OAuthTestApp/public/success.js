@@ -26,13 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function displayUserInfo(userData) {
-        const { name, picture, id } = userData;
+        const { googleId, name, picture } = userData;
         
         userInfoDiv.innerHTML = `
             <div class="user-profile">
                 <img src="${picture}" alt="Profile Picture" class="profile-picture" onerror="this.style.display='none'">
                 <div class="user-name">${name}</div>
-                <div class="user-id">ID: ${id}</div>
+                <div class="user-id">ID: ${googleId}</div>
             </div>
         `;
     }

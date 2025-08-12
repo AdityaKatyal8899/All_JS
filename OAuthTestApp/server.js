@@ -48,7 +48,8 @@ app.get('/', (req, res) => {
 app.get('/auth/google', (req, res) => {
   const scopes = [
     'https://www.googleapis.com/auth/userinfo.profile',
-    'openid'
+    'openid',
+    'https://www.googleapis.com/auth/userinfo.email'
   ];
 
   const authUrl = oauth2Client.generateAuthUrl({
