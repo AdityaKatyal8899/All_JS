@@ -106,17 +106,17 @@ app.get('/auth/google/callback', async (req, res) => {
     console.log("Received user data from Google:", userData);
 
     await usersCollection.updateOne(
-  { googleId: userData.googleId },
+  { email: userData.email },
   {
-    $setOnInsert: {
+    $set: {
       name: userData.name,
-      email: userData.email,
       picture: userData.picture,
+      lastLogin: new Date()
+    },
+    $setOnInsert: {
+      googleId: userData.googleId,
       tokens: userData.tokens,
       createdAt: new Date()
-    },
-    $set: {
-      lastLogin: new Date()
     }
   },
   { upsert: true }
