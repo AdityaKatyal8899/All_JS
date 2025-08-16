@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         userInfoDiv.innerHTML = `
             <div class="user-profile">
                 <img src="${picture}" alt="Profile Picture" class="profile-picture" onerror="this.style.display='none'">
-                <div class="user-name">${name}</div>
+                <div class="user-name">Hey! ${name}</div>
                 <div class="user-id">ID: ${googleId}</div>
             </div>
         `;
