@@ -5,6 +5,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get user data from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const userDataParam = urlParams.get('user');
+
+    //Copy button for user to copy their ID
+    const copybtn = document.querySelector('.noselect');
+    const gId = userData.googleId;
+
+    copybtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(gId)
+        .then(()=>{
+            copybtn.querySelector('.text').textContent = "Copied!";
+            setTimeout(() => copybtn.querySelector('.text').textContent = "Copy ID", 1500)
+        })
+
+        .catch(err => console.log(`Failed To copy ${err}`,));
+    })
     
     if (userDataParam) {
         try {
@@ -36,4 +50,5 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
     }
+
 });
