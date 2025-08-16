@@ -246,7 +246,7 @@ p {
 .user-name {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #333;
+    color: white;
 }
 
 .user-id {
@@ -305,7 +305,7 @@ p {
 }
 /* COPY BUTTON BESIDE GOOGLE ID */
 .copy-btn-container {
-    --size: 30px;
+    --size: 60px;
     display: inline-block;
     position: relative;
     width: var(--size);
