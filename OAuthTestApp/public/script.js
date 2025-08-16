@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const googleSignInBtn = document.getElementById('googleSignIn');
     const errorDiv = document.getElementById('error');
-    
+    const body = document.body;
+    const toggswitch = document.getElementById("checkbox");
+
     // Check for error parameters in URL
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Handle Google Sign In button click
+    if (googleSignInBtn){
     googleSignInBtn.addEventListener('click', function() {
         // Show loading state
         googleSignInBtn.disabled = true;
@@ -32,9 +35,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
             </svg>
             Signing in...
-        `;
-        
+            `;
         // Redirect to Google OAuth
         window.location.href = '/auth/google';
     });
+}
+
+if (localStorage.getItem("theme") === "dark"){
+    body.classList.add("DarkTheme")
+    toggswitch.checked = true
+}
+
+toggswitch.addEventListener('change', () =>{
+    if (toggswitch.checked){
+        body.classList.add("DarkTheme")
+        localStorage.setItem("theme", "dark")
+    }
+    else{
+        body.classList.remove("DarkTheme")
+        localStorage.setItem("theme", "light")
+    }
 });
+
+});
+    
+    

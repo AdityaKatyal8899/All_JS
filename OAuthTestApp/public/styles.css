@@ -6,13 +6,111 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: color 0.4s ease;
+    position: relative;
+    overflow: hidden;
 }
 
+/* Common pseudo styles */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1;
+    transition: opacity 0.8s ease, filter 0.6s ease;
+}
+
+/* Light theme background */
+body::before {
+    background-image: url("toapply/Wapply.png");
+    opacity: 1;
+    filter: blur(3px);
+}
+
+/* Dark theme background */
+body::after {
+    background-image: url("toapply/Dapply.png");
+    opacity: 0;
+    filter: blur(8px);
+}
+
+/* Toggle state */
+body.DarkTheme::before {
+    opacity: 0;
+    filter: blur(2px);
+}
+
+body.DarkTheme::after {
+    opacity: 1;
+    filter: blur(8px);
+}
+.switch {
+  display: block;
+  --width-of-switch: 4em;
+  --height-of-switch: 2em;
+  --size-of-icon: 1.4em;
+  --slider-offset: 0.3em;
+  position: relative;
+  display: inline-block;
+  width: var(--width-of-switch);
+  height: var(--height-of-switch);
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f4f4f5;
+    transition: background-color 0.4s ease;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: var(--size-of-icon);
+    width: var(--size-of-icon);
+    border-radius: 50%;
+    left: var(--slider-offset);
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(40deg,#ff0080,#ff8c00 70%);
+    transition: all 0.4s cubic-bezier(.68, -0.55, .27, 1.55);
+}
+
+input:checked + .slider {
+    background-color: #303136;
+}
+
+input:checked + .slider:before {
+    left: calc(100% - (var(--size-of-icon) + var(--slider-offset)));
+    background: #303136;
+    /* change the value of second inset in box-shadow to change the angle and direction of the moon  */
+    box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
+
+}
 .container {
     width: 100%;
     max-width: 400px;
@@ -20,49 +118,63 @@ body {
 }
 
 .login-card, .success-card {
-    background: white;
-    border-radius: 20px;
+    border-radius: 50px;
     padding: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 15px 15px 30px rgba(19, 20, 20, 0.736);
     text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(0, 0, 0, 0.129);
+    transition: all 0.6s ease-in-out;
+}
+
+body.DarkTheme .login-card, body.DarkTheme .success-card {
+    border-radius: 50px;
+    padding: 40px;
+    box-shadow: 1px 2px 15px rgb(250, 250, 250);
+    text-align: center;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(0, 0, 0, 0.129);
+}
+
+.login-card:hover, .success-card.hover{
+    transform: translateY(-5px) scale(1.02px);
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
-    color: #333;
+    color: white;
     margin-bottom: 10px;
     font-size: 2.5rem;
     font-weight: 600;
 }
 
 p {
-    color: #666;
+    color: white;
     margin-bottom: 30px;
     font-size: 1.1rem;
 }
-
 .google-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     padding: 15px 20px;
-    background: white;
+    background: linear-gradient(to left, transparent 50%, white 50%);
+    background-size: 200% 100%;
+    background-position: right bottom; /* start from right */
     border: 2px solid #ddd;
-    border-radius: 50px;
-    font-size: 1.1rem;
+    border-radius: 10px;
+    font-size: 1.3rem;
     font-weight: 500;
-    color: #333;
+    color: white; /* stays constant */
     cursor: pointer;
-    transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .google-btn:hover {
-    border-color: #4285F4;
-    box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
-    transform: translateY(-2px);
+    background-color: rgb(7, 43, 149);
+    border-radius: 50px;
 }
 
 .google-btn:active {
