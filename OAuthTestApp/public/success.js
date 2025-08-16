@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const userInfoDiv = document.getElementById('userInfo');
     const signOutBtn = document.getElementById('signOut');
-    
-    // Get user data from URL parameters
+
+    // Get user data from URL
     const urlParams = new URLSearchParams(window.location.search);
     const userDataParam = urlParams.get('user');
 
@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         userInfoDiv.innerHTML = '<div class="error-message">No user data found</div>';
     }
 
-    // Handle sign out
-    signOutBtn.addEventListener('click', function() {
+    // Sign out
+    signOutBtn.addEventListener('click', () => {
         window.location.href = '/';
     });
 
@@ -30,30 +30,32 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="user-profile">
                 <img src="${picture}" alt="Profile Picture" class="profile-picture" onerror="this.style.display='none'">
                 <div class="user-name">Hey! ${name}</div>
-                <div class="user-id">Here is your google ID: ${googleId}</div>
-                <button class="noselect">
-                    <span class="text">Copy ID</span>
-                </button>
+                <div class="user-id">
+                    Here is your Google ID: ${googleId}
+                    <label class="copy-btn-container">
+                        <input type="checkbox">
+                        <div class="checkmark">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
+                                    d="M416 128L192 384l-96-96"></path>
+                            </svg>
+                        </div>
+                    </label>
+                </div>
             </div>
         `;
 
-        // Attach copy button logic AFTER it's in the DOM
-        document.addEventListener('DOMContentLoaded', () => {
-        const copyCheckbox = document.querySelector('.container input');
-        const googleId = "${googleId}"; // dynamically insert user's Google ID here
-
+        // Copy ID functionality
+        const copyCheckbox = document.querySelector('.copy-btn-container input');
         copyCheckbox.addEventListener('click', () => {
             navigator.clipboard.writeText(googleId)
             .then(() => {
-                // Show the checkmark briefly to indicate success
                 const svg = copyCheckbox.nextElementSibling.querySelector('svg');
                 svg.style.opacity = '1';
-                setTimeout(() => svg.style.opacity = '0', 1000); 
-                console.log(`Copied!`);
+                setTimeout(() => svg.style.opacity = '0', 1000);
+                console.log('Copied!');
             })
-            .catch(err => console.error(`Failed to copy ID: ${err}`));
+            .catch(err => console.error('Failed to copy ID:', err));
         });
-    });
-
     }
 });

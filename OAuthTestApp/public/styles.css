@@ -259,41 +259,6 @@ p {
     padding: 5px 15px;
     border-radius: 20px;
 }
-
-.container {
-    --size: 30px;
-    width: var(--size);
-    height: var(--size);
-    display: inline-block;
-    position: relative;
-    background-color: #191A1E;
-    border-radius: 50%;
-    cursor: pointer;
-    padding: 0;
-    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgba(95,94,94,0.25), inset 0 0 0 #0e0e0e, inset 0 0 0 #5f5e5e;
-}
-
-.container .checkmark {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgba(95,94,94,0.25), inset 0 0 0 #0e0e0e, inset 0 0 0 #5f5e5e;
-    transition: all 0.3s ease;
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container .checkmark svg {
-    opacity: 0;
-    transition: all 0.3s ease;
-    width: 60%;
-    height: 60%;
-    color: #fff;
-}
-
-
 .sign-out-btn {
     background: #dc3545;
     color: white;
@@ -337,4 +302,48 @@ p {
         padding: 12px 15px;
         font-size: 1rem;
     }
+}
+/* COPY BUTTON BESIDE GOOGLE ID */
+.copy-btn-container {
+    --size: 30px;
+    display: inline-block;
+    position: relative;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background-color: #191A1E;
+    cursor: pointer;
+    vertical-align: middle;
+    padding: 0;
+    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgba(95,94,94,0.25), inset 0 0 0 #0e0e0e, inset 0 0 0 #5f5e5e;
+}
+
+.copy-btn-container input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.copy-btn-container .checkmark {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgba(95,94,94,0.25), inset 0 0 0 #0e0e0e, inset 0 0 0 #5f5e5e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.copy-btn-container .checkmark svg {
+    opacity: 0;
+    width: 60%;
+    height: 60%;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.copy-btn-container input:checked + .checkmark svg {
+    opacity: 1;
 }
