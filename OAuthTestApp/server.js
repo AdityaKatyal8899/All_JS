@@ -95,7 +95,7 @@ app.get('/auth/google/callback', async (req, res) => {
     const userInfo = await oauth2.userinfo.get();
 
     const userData = {
-      googleId: userInfo.data.sub,
+      googleId: userInfo.data.id,
       name: userInfo.data.name,
       email: userInfo.data.email,
       picture: userInfo.data.picture,
