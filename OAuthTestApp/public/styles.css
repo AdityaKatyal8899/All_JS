@@ -28,7 +28,6 @@ body::after {
     background-position: center;
     background-attachment: fixed;
     z-index: -1;
-    /* ❌ removed transitions */
 }
 
 /* Light theme background */
@@ -64,10 +63,10 @@ body.DarkTheme::after {
     text-align: center;
     backdrop-filter: blur(8px);
     border: 2px solid rgba(0, 0, 0, 0.129);
-    /* ❌ removed transitions */
 }
 
-body.DarkTheme .login-card, body.DarkTheme .success-card {
+body.DarkTheme .login-card,
+body.DarkTheme .success-card {
     border-radius: 50px;
     padding: 40px;
     box-shadow: 1px 2px 15px rgb(250, 250, 250);
@@ -76,27 +75,28 @@ body.DarkTheme .login-card, body.DarkTheme .success-card {
     border: 2px solid rgba(0, 0, 0, 0.129);
 }
 
+/* Switch */
 .switch {
-  display: block;
-  top: 20px;
-  right: 30px;
-  --width-of-switch: 4em;
-  --height-of-switch: 2em;
-  --size-of-icon: 1.4em;
-  --slider-offset: 0.3em;
-  position: fixed;
-  width: var(--width-of-switch);
-  height: var(--height-of-switch);
+    display: block;
+    top: 20px;
+    right: 30px;
+    --width-of-switch: 4em;
+    --height-of-switch: 2em;
+    --size-of-icon: 1.4em;
+    --slider-offset: 0.3em;
+    position: fixed;
+    width: var(--width-of-switch);
+    height: var(--height-of-switch);
 }
 
 /* Hide default HTML checkbox */
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-/* The slider */
+/* Slider */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -129,10 +129,10 @@ input:checked + .slider {
 input:checked + .slider:before {
     left: calc(100% - (var(--size-of-icon) + var(--slider-offset)));
     background: #303136;
-    /* change the value of second inset in box-shadow to change the angle and direction of the moon  */
     box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
-
 }
+
+/* Container */
 .container {
     width: 100%;
     max-width: 400px;
@@ -149,9 +149,8 @@ input:checked + .slider:before {
     transition: all 0.6s ease-in-out;
 }
 
-
-.login-card:hover, .success-card.hover{
-    transform: translateY(-5px) scale(1.02px);
+.login-card:hover, .success-card.hover {
+    transform: translateY(-5px) scale(1.02);
     box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -161,16 +160,19 @@ h1 {
     font-size: 2.5rem;
     font-weight: 600;
 }
-h3{
+
+h3 {
     color: white;
     line-height: 2.5em;
-
 }
+
 p {
     color: white;
     margin-bottom: 30px;
     font-size: 1.1rem;
 }
+
+/* Google Button */
 .google-btn {
     display: flex;
     align-items: center;
@@ -179,12 +181,12 @@ p {
     padding: 15px 20px;
     background: linear-gradient(to left, transparent 50%, white 50%);
     background-size: 200% 100%;
-    background-position: right bottom; /* start from right */
+    background-position: right bottom;
     border: 2px solid #ddd;
     border-radius: 10px;
     font-size: 1.3rem;
     font-weight: 500;
-    color: white; /* stays constant */
+    color: white;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -205,6 +207,7 @@ p {
     margin-right: 12px;
 }
 
+/* Error Message */
 .error-message {
     margin-top: 20px;
     padding: 15px;
@@ -243,16 +246,53 @@ p {
 .user-name {
     font-size: 1.5rem;
     font-weight: 600;
-    color: white;
+    color: #333;
 }
 
 .user-id {
-    color: black;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px; /* space between ID text and checkbox */
+    color: #666;
     font-size: 0.9rem;
     background: #f5f5f5;
     padding: 5px 15px;
     border-radius: 20px;
 }
+
+.container {
+    --size: 30px;
+    width: var(--size);
+    height: var(--size);
+    display: inline-block;
+    position: relative;
+    background-color: #191A1E;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgba(95,94,94,0.25), inset 0 0 0 #0e0e0e, inset 0 0 0 #5f5e5e;
+}
+
+.container .checkmark {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgba(95,94,94,0.25), inset 0 0 0 #0e0e0e, inset 0 0 0 #5f5e5e;
+    transition: all 0.3s ease;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .checkmark svg {
+    opacity: 0;
+    transition: all 0.3s ease;
+    width: 60%;
+    height: 60%;
+    color: #fff;
+}
+
 
 .sign-out-btn {
     background: #dc3545;
@@ -277,67 +317,24 @@ p {
     transform: translateY(0);
 }
 
+
+
+/* Responsive */
 @media (max-width: 480px) {
     .container {
         padding: 10px;
     }
-    
+
     .login-card, .success-card {
         padding: 30px 20px;
     }
-    
+
     h1 {
         font-size: 2rem;
     }
-    
+
     .google-btn {
         padding: 12px 15px;
         font-size: 1rem;
     }
-}
-/* From Uiverse.io by krlozCJ */ 
-/* Hide the default checkbox */
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-  display: none;
-  color: white;
-}
-
-.container {
-  --size: 50px;
-  width: var(--size);
-  display: block;
-  height: var(--size);
-  background-color: #191A1E;
-  border-radius: 100%;
-  cursor: pointer;
-  padding: 5px;
-  color: white;
-  box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%), inset 0px 0px 0px #0e0e0e, inset 0px -0px 0px #5f5e5e;
-}
-
-.container .checkmark {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%), inset 0px 0px 0px #0e0e0e, inset 0px -0px 0px #5f5e5e;
-  transition: all ease 0.3s;
-  padding: 8px;
-}
-
-.container .checkmark svg {
-  opacity: 0;
-  transition: all ease 0.3s;
-}
-
-.container input:checked + .checkmark {
-  box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%), inset 1.5px 1.5px 3px #0e0e0e, inset -1.5px -1.5px 3px #5f5e5e;
-}
-
-.container input:checked + .checkmark svg {
-  opacity: 1;
 }

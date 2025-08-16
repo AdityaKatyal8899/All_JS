@@ -38,14 +38,22 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
 
         // Attach copy button logic AFTER it's in the DOM
-        const copybtn = userInfoDiv.querySelector('.noselect');
-        copybtn.addEventListener("click", () => {
+        document.addEventListener('DOMContentLoaded', () => {
+        const copyCheckbox = document.querySelector('.container input');
+        const googleId = "${googleId}"; // dynamically insert user's Google ID here
+
+        copyCheckbox.addEventListener('click', () => {
             navigator.clipboard.writeText(googleId)
-                .then(() => {
-                    copybtn.querySelector('.text').textContent = "Copied!";
-                    setTimeout(() => copybtn.querySelector('.text').textContent = "Copy ID", 1500);
-                })
-                .catch(err => console.log(`Failed to copy: ${err}`));
+            .then(() => {
+                // Show the checkmark briefly to indicate success
+                const svg = copyCheckbox.nextElementSibling.querySelector('svg');
+                svg.style.opacity = '1';
+                setTimeout(() => svg.style.opacity = '0', 1000); 
+                console.log(`Copied!`);
+            })
+            .catch(err => console.error(`Failed to copy ID: ${err}`));
         });
+    });
+
     }
 });
