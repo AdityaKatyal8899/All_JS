@@ -303,19 +303,25 @@ p {
         font-size: 1rem;
     }
 }
-/* COPY BUTTON BESIDE GOOGLE ID */
 .copy-btn-container {
-    --size: 60px;
-    display: inline-block;
-    position: relative;
+    --size: 24px;                  /* slightly smaller */
+    display: inline-flex;           /* inline with text */
+    align-items: center;
+    justify-content: center;
     width: var(--size);
     height: var(--size);
+    margin-left: 8px;               /* spacing from ID text */
     border-radius: 50%;
-    background-color: #191A1E;
+    background-color: #4285F4;      /* Google blue for visibility */
     cursor: pointer;
-    vertical-align: middle;
-    padding: 0;
-    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgba(95,94,94,0.25), inset 0 0 0 #0e0e0e, inset 0 0 0 #5f5e5e;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.copy-btn-container:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 .copy-btn-container input {
@@ -326,24 +332,22 @@ p {
 }
 
 .copy-btn-container .checkmark {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgba(95,94,94,0.25), inset 0 0 0 #0e0e0e, inset 0 0 0 #5f5e5e;
+    width: 60%;
+    height: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease;
 }
 
 .copy-btn-container .checkmark svg {
+    width: 100%;
+    height: 100%;
+    color: white;
     opacity: 0;
-    width: 60%;
-    height: 60%;
-    color: #fff;
-    transition: all 0.3s ease;
+    transition: opacity 0.2s ease;
 }
 
 .copy-btn-container input:checked + .checkmark svg {
     opacity: 1;
 }
+
