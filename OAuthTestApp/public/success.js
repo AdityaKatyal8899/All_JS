@@ -6,20 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const userDataParam = urlParams.get('user');
 
-    //Copy button for user to copy their ID
-    const copybtn = document.querySelector('.noselect');
-    const gId = userData.googleId;
-
-    copybtn.addEventListener("click", () => {
-        navigator.clipboard.writeText(gId)
-        .then(()=>{
-            copybtn.querySelector('.text').textContent = "Copied!";
-            setTimeout(() => copybtn.querySelector('.text').textContent = "Copy ID", 1500)
-        })
-
-        .catch(err => console.log(`Failed To copy ${err}`,));
-    })
-    
     if (userDataParam) {
         try {
             const userData = JSON.parse(decodeURIComponent(userDataParam));
@@ -31,24 +17,35 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         userInfoDiv.innerHTML = '<div class="error-message">No user data found</div>';
     }
-    
+
     // Handle sign out
     signOutBtn.addEventListener('click', function() {
-        // In a real app, you would invalidate the session here
-        // For now, just redirect back to the login page
         window.location.href = '/';
     });
-    
+
     function displayUserInfo(userData) {
         const { googleId, name, picture } = userData;
-        
+
         userInfoDiv.innerHTML = `
             <div class="user-profile">
                 <img src="${picture}" alt="Profile Picture" class="profile-picture" onerror="this.style.display='none'">
                 <div class="user-name">Hey! ${name}</div>
-                <div class="user-id">ID: ${googleId}</div>
+                <div class="user-id">Here is your google ID: ${googleId}</div>
+                <button class="noselect">
+                    <span class="text">Copy ID</span>
+                </button>
             </div>
         `;
-    }
 
+        // Attach copy button logic AFTER it's in the DOM
+        const copybtn = userInfoDiv.querySelector('.noselect');
+        copybtn.addEventListener("click", () => {
+            navigator.clipboard.writeText(googleId)
+                .then(() => {
+                    copybtn.querySelector('.text').textContent = "Copied!";
+                    setTimeout(() => copybtn.querySelector('.text').textContent = "Copy ID", 1500);
+                })
+                .catch(err => console.log(`Failed to copy: ${err}`));
+        });
+    }
 });
