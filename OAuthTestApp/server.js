@@ -148,11 +148,10 @@ app.get('/spotify-callback', async (req, res) => {
     const tokenData = await tokenRes.json();
     if (tokenData.error) {
       console.error('Spotify token error:', tokenData);
-      return res.redirect('/?error=oauth_failed');
+      return res.redirect('/?error=' + encodeURIComponent(tokenData.error_description || tokenData.error));
     }
 
     const access_token = tokenData.access_token;
-
     const userRes = await fetch('https://api.spotify.com/v1/me', {
       headers: { 'Authorization': `Bearer ${access_token}` }
     });
@@ -161,8 +160,8 @@ app.get('/spotify-callback', async (req, res) => {
     const userData = {
       spotifyId: userInfo.id,
       name: userInfo.display_name,
-      spotifyId: userInfo.spotifyId,
-      picture: userInfo.images[0]?.url || null,
+      email: userInfo.email || null,
+      picture: userInfo.images?.[0]?.url || null,
       tokens: tokenData,
       lastLogin: new Date()
     };
