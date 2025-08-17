@@ -161,7 +161,7 @@ app.get('/spotify-callback', async (req, res) => {
     const userData = {
       spotifyId: userInfo.id,
       name: userInfo.display_name,
-      email: userInfo.email,
+      spotifyId: userInfo.spotifyId,
       picture: userInfo.images[0]?.url || null,
       tokens: tokenData,
       lastLogin: new Date()
@@ -199,3 +199,8 @@ app.listen(PORT, () => {
 }).on('error', err => {
   console.log(`❌ Unable to start server: ${err}`);
 });
+
+console.log("SPOTIFY_CLIENT_ID:", SPOTIFY_CLIENT_ID);
+console.log("SPOTIFY_CLIENT_SECRET:", SPOTIFY_CLIENT_SECRET ? "Loaded ✅" : "Missing ❌");
+console.log("SPOTIFY_REDIRECT_URI:", SPOTIFY_REDIRECT_URI);
+
