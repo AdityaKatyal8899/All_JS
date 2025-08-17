@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const googleSignIn = document.getElementById('googleSign');
+    const googleSignInBtn = document.getElementById('googleSign');
     const spotifySignInBtn = document.getElementById('spotifySign');
     const errorDiv = document.getElementById('error');
     const body = document.body;
