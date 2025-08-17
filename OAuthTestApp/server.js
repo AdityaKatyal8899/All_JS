@@ -18,11 +18,10 @@ const oauth2Client = new google.auth.OAuth2(
 // ===== Spotify OAuth Setup =====
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
-const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI; // e.g., https://yourdomain.com/spotify-callback
+const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
 
 // ===== MongoDB Setup =====
-const MONGO_URI = process.env.MONGODB_URI;
-const client = new MongoClient(MONGO_URI, {
+const client = new MongoClient(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -35,11 +34,6 @@ client.connect()
     const db = client.db("AuthTest");     
     usersGoogle = db.collection("GoogleLogs");    
     usersSpoti = db.collection("SpotifyLogs");    
-    return Promise.all([usersGoogle.indexes(), usersSpoti.indexes()]);
-  })
-  .then(([googleIndexes, spotifyIndexes]) => {
-    console.log("MongoDB indexes on GoogleLogs:", googleIndexes);   
-    console.log("MongoDB indexes on SpotifyLogs:", spotifyIndexes); 
   })
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
@@ -47,9 +41,7 @@ client.connect()
 app.use(express.static('public'));
 app.use(express.json());
 
-// ===== Routes =====
-
-// Home page
+// ===== Home =====
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -92,8 +84,6 @@ app.get('/auth/google/callback', async (req, res) => {
       lastLogin: new Date()
     };
 
-    console.log("Received Google user data:", userData);
-
     await usersGoogle.updateOne(
       { email: userData.email },
       {
@@ -117,7 +107,6 @@ app.get('/auth/google/callback', async (req, res) => {
       picture: userData.picture,
       email: userData.email
     }))}`);
-
   } catch (error) {
     console.error('Google OAuth error:', error);
     res.redirect('/?error=oauth_failed');
@@ -126,11 +115,7 @@ app.get('/auth/google/callback', async (req, res) => {
 
 // ===== Spotify OAuth =====
 app.get('/auth/spotify', (req, res) => {
-  const scopes = [
-    'user-read-private',
-    'user-read-email'
-  ];
-
+  const scopes = ['user-read-private', 'user-read-email'];
   const params = new URLSearchParams({
     client_id: SPOTIFY_CLIENT_ID,
     response_type: 'code',
@@ -147,12 +132,11 @@ app.get('/spotify-callback', async (req, res) => {
   if (!usersSpoti) return res.redirect('/?error=db_not_ready');
 
   try {
-    // Exchange code for access token
     const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString('base64'),
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
@@ -162,14 +146,18 @@ app.get('/spotify-callback', async (req, res) => {
     });
 
     const tokenData = await tokenRes.json();
+    if (tokenData.error) {
+      console.error('Spotify token error:', tokenData);
+      return res.redirect('/?error=oauth_failed');
+    }
+
     const access_token = tokenData.access_token;
 
-    // Fetch user profile
     const userRes = await fetch('https://api.spotify.com/v1/me', {
       headers: { 'Authorization': `Bearer ${access_token}` }
     });
-    const userInfo = await userRes.json();
 
+    const userInfo = await userRes.json();
     const userData = {
       spotifyId: userInfo.id,
       name: userInfo.display_name,
@@ -179,21 +167,11 @@ app.get('/spotify-callback', async (req, res) => {
       lastLogin: new Date()
     };
 
-    console.log("Received Spotify user data:", userData);
-
     await usersSpoti.updateOne(
       { email: userData.email },
       {
-        $set: {
-          name: userData.name,
-          picture: userData.picture,
-          lastLogin: new Date()
-        },
-        $setOnInsert: {
-          spotifyId: userData.spotifyId,
-          tokens: userData.tokens,
-          createdAt: new Date()
-        }
+        $set: { name: userData.name, picture: userData.picture, lastLogin: new Date() },
+        $setOnInsert: { spotifyId: userData.spotifyId, tokens: userData.tokens, createdAt: new Date() }
       },
       { upsert: true }
     );
@@ -204,7 +182,6 @@ app.get('/spotify-callback', async (req, res) => {
       picture: userData.picture,
       email: userData.email
     }))}`);
-
   } catch (err) {
     console.error('Spotify OAuth error:', err);
     res.redirect('/?error=oauth_failed');
@@ -216,11 +193,9 @@ app.get('/success', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
-// ===== Start Server =====
+// ===== Start server =====
 app.listen(PORT, () => {
-    console.log("✅Connection Successfull")
   console.log(`🚀 Server running at http://localhost:${PORT}`);
-}).on('error' , err =>{
-  console.log(`❌Unable to connect to the server! ${err}`)
+}).on('error', err => {
+  console.log(`❌ Unable to start server: ${err}`);
 });
-    
