@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const googleSignInBtn = document.getElementById('googleSignIn');
+    const googleSignIn = document.getElementById('googleSign');
+    const spotifySignInBtn = document.getElementById('spotifySign');
     const errorDiv = document.getElementById('error');
     const body = document.body;
     const toggswitch = document.getElementById("checkbox");
@@ -38,6 +39,21 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         // Redirect to Google OAuth
         window.location.href = '/auth/google';
+    });
+}
+if (spotifySignInBtn) {
+    spotifySignInBtn.addEventListener('click', function() {
+        // Show loading state
+        spotifySignInBtn.disabled = true;
+        spotifySignInBtn.innerHTML = `
+            <svg class="spotify-icon" viewBox="0 0 168 168" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <circle fill="#1DB954" cx="84" cy="84" r="84"/>
+                <path fill="#fff" d="M119.1 118.9c-1.4 2.3-4.5 3-6.8 1.6-18.6-11.4-42-14-69.5-7.8-2.6.5-5.1-1.3-5.6-3.9-.5-2.6 1.3-5.1 3.9-5.6 29-6.5 54.1-3.6 74.2 8.6 2.4 1.5 3.1 4.6 1.8 6.9zm9.8-20.4c-1.7 2.8-5.3 3.7-8.1 2-21.3-13-53.7-16.8-78.9-9.3-3.1 1-6.4-1-7.4-4.1-1-3.1 1-6.4 4.1-7.4 28-9.2 64.2-5 88 10.5 2.8 1.7 3.7 5.2 2.3 7.3zm.1-21.1c-24.4-14.4-65.1-15.8-88.9-8.7-3.5 1-7.2-1-8.2-4.5-1-3.5 1-7.2 4.5-8.2 27.7-7.8 73-6.2 100.1 10.1 3.3 1.9 4.3 6.3 2.4 9.6-1.9 3.2-6.2 4.2-9.9 2.7z"/>
+            </svg>
+            Signing in...
+        `;
+        // Redirect to Spotify OAuth
+        window.location.href = '/auth/spotify';
     });
 }
 
