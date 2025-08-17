@@ -1,4 +1,4 @@
-const fetch = requrie('node-fetch');
+const fetch = require('node-fetch');
 const express = require('express');
 const { google } = require('googleapis');
 const path = require('path');
