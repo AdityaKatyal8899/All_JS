@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+const fetch = requrie('node-fetch');
 const express = require('express');
 const { google } = require('googleapis');
 const path = require('path');
@@ -218,11 +218,9 @@ app.get('/success', (req, res) => {
 
 // ===== Start Server =====
 app.listen(PORT, () => {
-  try{
     console.log("✅Connection Successfull")
-  console.log(`🚀 Server running at http://localhost:${PORT}`);}
-
-  catch(err){
-    console.log("❌Unable to connect to the server!")
-  }
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+}).on('error' , err =>{
+  console.log(`❌Unable to connect to the server! ${err}`)
 });
+    
