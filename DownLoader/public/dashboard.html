@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - YouTube Downloader</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="dashboard-body">
     <div class="dashboard-container">
-        <!-- Header -->
         <header class="dashboard-header">
             <div class="header-left">
                 <div class="logo">
@@ -37,9 +36,7 @@
             </div>
         </header>
 
-        <!-- Main content -->
         <main class="dashboard-main">
-            <!-- Download section -->
             <section class="download-section">
                 <div class="download-card">
                     <h2>Download YouTube Content</h2>
@@ -75,12 +72,10 @@
                             </button>
                         </div>
                         
-                        <!-- Format selection for video downloads -->
                         <div id="formatSelection" class="format-selection" style="display: none;">
                             <h4>Select Video Quality</h4>
                             <div id="formatOptions" class="format-options">
-                                <!-- Format options will be populated here -->
-                            </div>
+                                </div>
                         </div>
                         
                         <button type="submit" class="download-btn">
@@ -91,15 +86,12 @@
                 </div>
             </section>
 
-            <!-- Active downloads -->
             <section class="active-downloads">
                 <h3>Active Downloads</h3>
                 <div id="activeDownloads" class="downloads-list">
-                    <!-- Active downloads will be populated here -->
-                </div>
+                    </div>
             </section>
 
-            <!-- Download history -->
             <section class="download-history">
                 <div class="history-header">
                     <h3>Download History</h3>
@@ -109,13 +101,11 @@
                     </button>
                 </div>
                 <div id="downloadHistory" class="downloads-grid">
-                    <!-- Download history will be populated here -->
-                </div>
+                    </div>
             </section>
         </main>
     </div>
 
-    <!-- Loading overlay -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="loading-spinner">
             <div class="spinner"></div>
@@ -123,7 +113,6 @@
         </div>
     </div>
 
-    <!-- Success notification -->
     <div id="successNotification" class="notification success">
         <i class="fas fa-check-circle"></i>
         <span id="successMessage">Download completed successfully!</span>
@@ -132,7 +121,6 @@
         </button>
     </div>
 
-    <!-- Error notification -->
     <div id="errorNotification" class="notification error">
         <i class="fas fa-exclamation-circle"></i>
         <span id="errorMessage">An error occurred. Please try again.</span>

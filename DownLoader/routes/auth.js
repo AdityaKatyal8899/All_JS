@@ -2,63 +2,28 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-// Middleware to check if user is authenticated
-const isAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ error: 'Not authenticated' });
-};
+// Google login
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// Start Google OAuth login
-router.get('/google', passport.authenticate('google', {
-  scope: ['profile', 'email']
+router.get('/google/callback', passport.authenticate('google', {
+  failureRedirect: '/',
+  successRedirect: '/dashboard'
 }));
 
-// Google OAuth callback
-router.get('/google/callback', 
-  passport.authenticate('google', { 
-    failureRedirect: '/?error=auth_failed',
-    failureFlash: true
-  }),
-  (req, res) => {
-    // Successful authentication
-    res.redirect('/dashboard');
-  }
-);
-
-// Logout route
+// Logout
 router.get('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      console.error('Logout error:', err);
-      return res.status(500).json({ error: 'Logout failed' });
-    }
-    req.session.destroy((err) => {
-      if (err) {
-        console.error('Session destruction error:', err);
-        return res.status(500).json({ error: 'Session destruction failed' });
-      }
-      res.redirect('/');
-    });
+  req.logout(err => {
+    if(err) return res.status(500).json({ error: 'Logout failed' });
+    res.redirect('/');
   });
 });
 
-// Check authentication status
+// Auth status
 router.get('/status', (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({
-      authenticated: true,
-      user: {
-        id: req.user._id,
-        name: req.user.name,
-        email: req.user.email,
-        profilePicture: req.user.profilePicture
-      }
-    });
-  } else {
-    res.json({ authenticated: false });
+    return res.json({ authenticated: true, user: req.user });
   }
+  res.json({ authenticated: false });
 });
 
 module.exports = router;

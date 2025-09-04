@@ -1,6 +1,47 @@
 import yt_dlp
 import ffmpeg
 import os
+from bs4 import BeautifulSoup
+def parse_youtube_feed(html_text):
+    """
+    Parses YouTube subscriptions feed HTML and returns a list of videos.
+    Each video is a dict with id, title, thumbnail, url.
+    """
+    soup = BeautifulSoup(html_text, "html.parser")
+    videos = []
+
+    # YouTube's HTML structure changes often; this is just an example
+    for video_div in soup.find_all("div", {"class": "ytd-grid-video-renderer"}):
+        title_tag = video_div.find("a", {"id": "video-title"})
+        thumbnail_tag = video_div.find("img")
+        
+        if title_tag and thumbnail_tag:
+            video = {
+                "id": video_div.get("data-video-id", ""),
+                "title": title_tag.text.strip(),
+                "thumbnail": thumbnail_tag.get("src"),
+                "url": "https://www.youtube.com" + title_tag.get("href", "")
+            }
+            videos.append(video)
+    return videos
+
+def fetch_user_feed(cookies):
+    # Use requests with cookies
+    import requests
+
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    response = requests.get(
+        "https://www.youtube.com/feed/subscriptions",
+        headers=headers,
+        cookies=cookies
+    )
+
+    # Parse the response and extract video info
+    # Return as a structured list of dicts
+    return parse_youtube_feed(response.text)
 
 def readable_size(size_bytes):
     if not size_bytes:
