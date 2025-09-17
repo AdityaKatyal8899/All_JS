@@ -1,4 +1,4 @@
-const API_KEY = "AIzaSyBhv-qJavh-UkQgE9rpknjxmepR68nROts"; // 🔑 Your actual key
+const API_KEY = "API KEY HERE"; // 🔑 Your actual key
 
 async function getTrailer() {
   const query = document.getElementById("movieInput").value + " trailer";
